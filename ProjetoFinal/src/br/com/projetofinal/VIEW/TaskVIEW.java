@@ -4,6 +4,8 @@
  */
 package br.com.projetofinal.VIEW;
 
+import br.com.projetofinal.DAO.ConnectionDAO;
+
 /**
  *
  * @author leele
@@ -69,13 +71,14 @@ public class TaskVIEW extends javax.swing.JFrame {
         }
         //</editor-fold>
 
+         ConnectionDAO.ConnectDB(); // testando conexao com o banco de dados.
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new TaskVIEW().setVisible(true);
             }
         });
-    }
+    };
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
