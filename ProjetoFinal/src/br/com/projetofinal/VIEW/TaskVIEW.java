@@ -5,12 +5,26 @@
 package br.com.projetofinal.VIEW;
 
 import br.com.projetofinal.DAO.ConnectionDAO;
+import javax.swing.JButton;
+import javax.swing.GroupLayout.Alignment;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JTextField;
+import javax.swing.GroupLayout;
+import java.awt.Font;
+import javax.swing.JLabel;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author leele
  */
 public class TaskVIEW extends javax.swing.JFrame {
+	private JTextField textField;
+	private JTable table;
 
     /**
      * Creates new form TaskVIEW
@@ -29,17 +43,95 @@ public class TaskVIEW extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        
+        textField = new JTextField();
+        textField.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        textField.setColumns(10);
+        
+        JSeparator separator = new JSeparator();
+        
+        table = new JTable();
+        table.setModel(new DefaultTableModel(
+        	new Object[][] {
+        		{null},
+        	},
+        	new String[] {
+        		"New column"
+        	}
+        ));
+        
+        JButton btnNewButton_1 = new JButton("OK");
+        btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        
+        JButton btnNewButton = new JButton("Deletar");
+        btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        
+        JButton btnNewButton_2 = new JButton("Editar");
+        btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        
+        JLabel lblNewLabel = new JLabel("A Fazer");
+        lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        
+        JLabel lblNewLabel_1 = new JLabel("Fazendo");
+        lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        
+        JLabel lblNewLabel_2 = new JLabel("Feito");
+        lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 678, Short.MAX_VALUE)
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addGap(83)
+        			.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+        				.addComponent(lblNewLabel)
+        				.addComponent(table, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE))
+        			.addGap(154)
+        			.addComponent(lblNewLabel_1)
+        			.addPreferredGap(ComponentPlacement.RELATED, 156, Short.MAX_VALUE)
+        			.addComponent(lblNewLabel_2)
+        			.addGap(124))
+        		.addGroup(layout.createSequentialGroup()
+        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(140)
+        					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE))
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(18)
+        					.addComponent(btnNewButton)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(btnNewButton_2)))
+        			.addContainerGap(171, Short.MAX_VALUE))
+        		.addGroup(layout.createSequentialGroup()
+        			.addGap(180)
+        			.addComponent(textField, GroupLayout.PREFERRED_SIZE, 230, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(btnNewButton_1)
+        			.addContainerGap(174, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 464, Short.MAX_VALUE)
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(btnNewButton)
+        				.addComponent(btnNewButton_2))
+        			.addGap(78)
+        			.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(btnNewButton_1))
+        			.addGap(105)
+        			.addComponent(table, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(lblNewLabel)
+        				.addComponent(lblNewLabel_1)
+        				.addComponent(lblNewLabel_2))
+        			.addGap(33)
+        			.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(180, Short.MAX_VALUE))
         );
+        getContentPane().setLayout(layout);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -78,8 +170,5 @@ public class TaskVIEW extends javax.swing.JFrame {
                 new TaskVIEW().setVisible(true);
             }
         });
-    };
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
+    }
 }
