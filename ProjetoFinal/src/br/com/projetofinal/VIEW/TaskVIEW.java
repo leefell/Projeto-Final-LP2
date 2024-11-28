@@ -44,22 +44,9 @@ public class TaskVIEW extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         
-        JButton Deletar = new JButton("Deletar");
-        Deletar.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        Deletar.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        	}
-        });
-        
-        JButton btnNewButton = new JButton("Editar");
-        btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        
         textField = new JTextField();
         textField.setFont(new Font("Tahoma", Font.PLAIN, 14));
         textField.setColumns(10);
-        
-        JButton btnNewButton_1 = new JButton("OK");
-        btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
         
         JSeparator separator = new JSeparator();
         
@@ -72,46 +59,75 @@ public class TaskVIEW extends javax.swing.JFrame {
         		"New column"
         	}
         ));
+        
+        JButton btnNewButton_1 = new JButton("OK");
+        btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        
+        JButton btnNewButton = new JButton("Deletar");
+        btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        
+        JButton btnNewButton_2 = new JButton("Editar");
+        btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        
+        JLabel lblNewLabel = new JLabel("A Fazer");
+        lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        
+        JLabel lblNewLabel_1 = new JLabel("Fazendo");
+        lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        
+        JLabel lblNewLabel_2 = new JLabel("Feito");
+        lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         layout.setHorizontalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
+        			.addGap(83)
+        			.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+        				.addComponent(lblNewLabel)
+        				.addComponent(table, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE))
+        			.addGap(154)
+        			.addComponent(lblNewLabel_1)
+        			.addPreferredGap(ComponentPlacement.RELATED, 156, Short.MAX_VALUE)
+        			.addComponent(lblNewLabel_2)
+        			.addGap(124))
+        		.addGroup(layout.createSequentialGroup()
         			.addGroup(layout.createParallelGroup(Alignment.LEADING)
         				.addGroup(layout.createSequentialGroup()
-        					.addGap(183)
-        					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 230, GroupLayout.PREFERRED_SIZE)
-        					.addPreferredGap(ComponentPlacement.RELATED)
-        					.addComponent(btnNewButton_1))
-        				.addGroup(layout.createSequentialGroup()
-        					.addContainerGap()
-        					.addComponent(Deletar)
-        					.addPreferredGap(ComponentPlacement.RELATED)
-        					.addComponent(btnNewButton))
-        				.addGroup(layout.createSequentialGroup()
-        					.addGap(128)
-        					.addComponent(table, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE))
-        				.addGroup(layout.createSequentialGroup()
         					.addGap(140)
-        					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)))
-        			.addContainerGap(152, Short.MAX_VALUE))
+        					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE))
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(18)
+        					.addComponent(btnNewButton)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(btnNewButton_2)))
+        			.addContainerGap(171, Short.MAX_VALUE))
+        		.addGroup(layout.createSequentialGroup()
+        			.addGap(180)
+        			.addComponent(textField, GroupLayout.PREFERRED_SIZE, 230, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(btnNewButton_1)
+        			.addContainerGap(174, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
         			.addContainerGap()
         			.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-        				.addComponent(Deletar)
-        				.addComponent(btnNewButton))
-        			.addGap(21)
-        			.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-        				.addGroup(layout.createSequentialGroup()
-        					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-        						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(btnNewButton_1))
-        					.addGap(158))
-        				.addComponent(table, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE))
-        			.addGap(56)
+        				.addComponent(btnNewButton)
+        				.addComponent(btnNewButton_2))
+        			.addGap(78)
+        			.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(btnNewButton_1))
+        			.addGap(105)
+        			.addComponent(table, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(lblNewLabel)
+        				.addComponent(lblNewLabel_1)
+        				.addComponent(lblNewLabel_2))
+        			.addGap(33)
         			.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
         			.addContainerGap(180, Short.MAX_VALUE))
         );
