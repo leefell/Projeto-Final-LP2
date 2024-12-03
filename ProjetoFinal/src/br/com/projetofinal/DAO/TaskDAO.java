@@ -16,7 +16,7 @@ public class TaskDAO {
 	}
 
 	// Cria
-	public void createTask(ITaskDTO task) {
+	public boolean createTask(ITaskDTO task) {
 		String query = "INSERT INTO tasks (title, status, type, created_at) VALUES (?, ?, ?, ?)";
 		try {
 			PreparedStatement stmt = con.prepareStatement(query);
@@ -26,8 +26,10 @@ public class TaskDAO {
 			stmt.setTimestamp(4, new Timestamp(task.getCreatedAt().getTime())); // acho que isso funciona
 
 			stmt.executeUpdate();
+			return true;
 		} catch (SQLException e) {
 			System.err.println("Erro ao criar tarefa: " + e.getMessage());
+			return false;
 		}
 	}
 
@@ -113,5 +115,4 @@ public class TaskDAO {
 	    }
 	    return task;
 	}
-
 }

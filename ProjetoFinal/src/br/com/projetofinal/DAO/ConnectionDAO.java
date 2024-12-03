@@ -12,9 +12,9 @@ public class ConnectionDAO {
 
     public static void ConnectDB() {
         try {
-            String dsn = "nome_banco";
-            String user = "usuario";
-            String senha = "senha";
+            String dsn = "projetoFinalLP2";
+            String user = "postgres";
+            String senha = "1508";
 
             DriverManager.registerDriver(new org.postgresql.Driver());
 
