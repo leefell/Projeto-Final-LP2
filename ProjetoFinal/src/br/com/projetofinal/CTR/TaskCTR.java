@@ -7,10 +7,11 @@ import java.sql.Connection;
 import java.util.List;
 
 public class TaskCTR {
-    private TaskDAO taskDAO;
 
-    public TaskCTR(Connection con) {
-        this.taskDAO = new TaskDAO(con);
+    private TaskDAO taskDAO = new TaskDAO();
+
+    public TaskCTR() {
+    	
     }
 
     public String createTask(ITaskDTO task) {
@@ -21,8 +22,7 @@ public class TaskCTR {
                 return task.getType() + " task não cadastrada!";
             }
         } catch (Exception e) {
-            System.err.println("Erro ao criar tarefa: " + e.getMessage());
-            return task.getType() + " task não cadastrada.";
+            return handleError("Erro ao criar tarefa", e);
         }
     }
 
@@ -33,65 +33,41 @@ public class TaskCTR {
     public ITaskDTO getTaskById(int id) {
         return taskDAO.getTaskById(id);
     }
-    
+
     public String updateTask(int id, ITaskDTO updatedTask) {
         try {
             taskDAO.updateTask(id, updatedTask);
             return "Task atualizada com sucesso!";
         } catch (Exception e) {
-            System.err.println("Erro ao atualizar tarefa: " + e.getMessage());
-            return "Erro ao atualizar a task.";
+            return handleError("Erro ao atualizar tarefa", e);
         }
     }
-    
-    
-    public String updateTaskTodoToDoing(int id) {
+
+    public String updateTaskStatus(int id, String newStatus) {
         try {
-            taskDAO.updateTaskTodoToDoing(id);
-            return "Task atualizada com sucesso!";
+            boolean isUpdated = taskDAO.updateTaskStatus(id, newStatus);
+            if (isUpdated) {
+                return "Status da task atualizado para '" + newStatus + "' com sucesso!";
+            } else {
+                return "Não foi possível atualizar o status da task.";
+            }
         } catch (Exception e) {
-            System.err.println("Erro ao atualizar tarefa: " + e.getMessage());
-            return "Erro ao atualizar a task.";
+            return handleError("Erro ao atualizar status da tarefa", e);
         }
     }
-    
-    public String updateTaskDoingToDone(int id) {
-        try {
-            taskDAO.updateTaskDoingToDone(id);
-            return "Task atualizada com sucesso!";
-        } catch (Exception e) {
-            System.err.println("Erro ao atualizar tarefa: " + e.getMessage());
-            return "Erro ao atualizar a task.";
-        }
-    }
-    
-    public String updateTaskDoneToDoing(int id) {
-        try {
-            taskDAO.updateTaskDoneToDoing(id);
-            return "Task atualizada com sucesso!";
-        } catch (Exception e) {
-            System.err.println("Erro ao atualizar tarefa: " + e.getMessage());
-            return "Erro ao atualizar a task.";
-        }
-    }
-    
-    public String updateTaskDoingToTodo(int id) {
-        try {
-            taskDAO.updateTaskDoingToTodo(id);
-            return "Task atualizada com sucesso!";
-        } catch (Exception e) {
-            System.err.println("Erro ao atualizar tarefa: " + e.getMessage());
-            return "Erro ao atualizar a task.";
-        }
-    }
-    
+
     public String deleteTask(int id) {
-    	try {
-    		taskDAO.deleteTask(id);
-    		return "Tarefa excluída com sucesso!";
-    	}catch(Exception e) {
-    		System.err.println("Erro ao excluir tarefa: " + e.getMessage());
-            return "Erro ao excluir a task.";
-    	}
+        try {
+            taskDAO.deleteTask(id);
+            return "Tarefa excluída com sucesso!";
+        } catch (Exception e) {
+            return handleError("Erro ao excluir tarefa", e);
+        }
+    }
+
+    // Método auxiliar para manipular mensagens de erro
+    private String handleError(String message, Exception e) {
+        System.err.println(message + ": " + e.getMessage());
+        return message + ". Consulte os logs para mais detalhes.";
     }
 }
