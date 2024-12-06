@@ -33,8 +33,7 @@ import javax.swing.DefaultComboBoxModel;
 
 public class TaskVIEW extends JFrame {
     private JTextField titleTask;
-    private Connection con = ConnectionDAO.con;
-    private TaskCTR controller = new TaskCTR(con);
+    private TaskCTR controller = new TaskCTR();
 
     public TaskVIEW() {
         initComponents();
@@ -101,7 +100,8 @@ public class TaskVIEW extends JFrame {
         		
         		if (rowSelected != -1) {
         			int id = (int) tableA.getValueAt(rowSelected, 0);
-        			controller.updateTaskTodoToDoing(id);
+        			String newStatus = "Fazendo"; 
+        			controller.updateTaskStatus(id, newStatus);
         		}
         		
         	}
@@ -125,14 +125,27 @@ public class TaskVIEW extends JFrame {
         btnOk.setFont(new Font("Tahoma", Font.PLAIN, 14));
         
         btnOk.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		String title = titleTask.getText();
-        		String type = (String) typeTask.getSelectedItem();
-        		
-        		ConcreteTaskFactoryDTO concreteTaskFactoryDTO = new ConcreteTaskFactoryDTO();
-        		controller.createTask(concreteTaskFactoryDTO.createTask(title, type));
-        	}
+            public void actionPerformed(ActionEvent e) {
+                String title = titleTask.getText();
+                String type = (String) typeTask.getSelectedItem();
+
+                if (title.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "O título da tarefa não pode estar vazio.");
+                    return;
+                }
+
+                if (type == null || type.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Por favor, selecione o tipo da tarefa.");
+                    return;
+                }
+
+                ConcreteTaskFactoryDTO factory = new ConcreteTaskFactoryDTO();
+                controller.createTask(factory.createTask(title, type));
+                JOptionPane.showMessageDialog(null, "Tarefa criada com sucesso!");
+                titleTask.setText("");
+            }
         });
+
         
         GroupLayout layout = new GroupLayout(getContentPane());
         layout.setHorizontalGroup(
