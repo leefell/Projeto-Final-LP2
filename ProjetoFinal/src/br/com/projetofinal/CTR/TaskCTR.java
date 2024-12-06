@@ -44,6 +44,47 @@ public class TaskCTR {
         }
     }
     
+    
+    public String updateTaskTodoToDoing(int id) {
+        try {
+            taskDAO.updateTaskTodoToDoing(id);
+            return "Task atualizada com sucesso!";
+        } catch (Exception e) {
+            System.err.println("Erro ao atualizar tarefa: " + e.getMessage());
+            return "Erro ao atualizar a task.";
+        }
+    }
+    
+    public String updateTaskDoingToDone(int id) {
+        try {
+            taskDAO.updateTaskDoingToDone(id);
+            return "Task atualizada com sucesso!";
+        } catch (Exception e) {
+            System.err.println("Erro ao atualizar tarefa: " + e.getMessage());
+            return "Erro ao atualizar a task.";
+        }
+    }
+    
+    public String updateTaskDoneToDoing(int id) {
+        try {
+            taskDAO.updateTaskDoneToDoing(id);
+            return "Task atualizada com sucesso!";
+        } catch (Exception e) {
+            System.err.println("Erro ao atualizar tarefa: " + e.getMessage());
+            return "Erro ao atualizar a task.";
+        }
+    }
+    
+    public String updateTaskDoingToTodo(int id) {
+        try {
+            taskDAO.updateTaskDoingToTodo(id);
+            return "Task atualizada com sucesso!";
+        } catch (Exception e) {
+            System.err.println("Erro ao atualizar tarefa: " + e.getMessage());
+            return "Erro ao atualizar a task.";
+        }
+    }
+    
     public String deleteTask(int id) {
     	try {
     		taskDAO.deleteTask(id);

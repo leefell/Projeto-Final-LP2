@@ -4,11 +4,11 @@ import java.util.Date;
 
 public class ConcreteTaskFactoryDTO extends TaskFactoryDTO {
     @Override
-    public ITaskDTO createTask(String title, String status, Date created_at){
+    public ITaskDTO createTask(String title, String status){
         if(status.equalsIgnoreCase("urgent")){
-            return new UrgentTaskDTO(title, status, created_at);
+            return new UrgentTaskDTO(title, status);
         }else{
-            return new NormalTaskDTO(title, status, created_at);
+            return new NormalTaskDTO(title, status);
         }
     }
 }

@@ -15,6 +15,12 @@ public class NormalTaskDTO implements ITaskDTO {
         this.type = "normal";
         this.created_At = created_At;
     }
+    
+    public NormalTaskDTO(String title, String status) {
+    	this.title = title;
+    	this.status = status;
+    	this.type = "normal";
+    }
 
     @Override
     public String getTitle() {

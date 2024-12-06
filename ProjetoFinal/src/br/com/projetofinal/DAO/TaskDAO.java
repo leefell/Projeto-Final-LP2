@@ -21,9 +21,9 @@ public class TaskDAO {
 		try {
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setString(1, task.getTitle());
-			stmt.setString(2, task.getStatus());
+			stmt.setString(2, "TODO");
 			stmt.setString(3, task.getType());
-			stmt.setTimestamp(4, new Timestamp(task.getCreatedAt().getTime())); // acho que isso funciona
+			stmt.setDate(4, new Date(System.currentTimeMillis()));
 
 			stmt.executeUpdate();
 			return true;
@@ -81,6 +81,63 @@ public class TaskDAO {
 			System.err.println("Erro ao atualizar tarefa: " + e.getMessage());
 		}
 	}
+	
+	// Área de Edição de Status
+	// Atualiza Fazer para Fazendo
+		public void updateTaskTodoToDoing(int id) {
+			String query = "UPDATE tasks SET status = ? WHERE id = ?";
+			try {
+				PreparedStatement stmt = con.prepareStatement(query);
+				stmt.setString(1, "DOING");
+				stmt.setInt(2, id);
+
+				stmt.executeUpdate();
+			} catch (SQLException e) {
+				System.err.println("Erro ao atualizar tarefa: " + e.getMessage());
+			}
+		}
+		
+		// Atualiza Fazendo para Feita
+				public void updateTaskDoingToDone(int id) {
+					String query = "UPDATE tasks SET status = ? WHERE id = ?";
+					try {
+						PreparedStatement stmt = con.prepareStatement(query);
+						stmt.setString(1, "DONE");
+						stmt.setInt(2, id);
+
+						stmt.executeUpdate();
+					} catch (SQLException e) {
+						System.err.println("Erro ao atualizar tarefa: " + e.getMessage());
+					}
+				}
+				
+				// Atualiza Feita para Fazendo
+				public void updateTaskDoneToDoing(int id) {
+					String query = "UPDATE tasks SET status = ? WHERE id = ?";
+					try {
+						PreparedStatement stmt = con.prepareStatement(query);
+						stmt.setString(1, "DOING");
+						stmt.setInt(2, id);
+
+						stmt.executeUpdate();
+					} catch (SQLException e) {
+						System.err.println("Erro ao atualizar tarefa: " + e.getMessage());
+					}
+				}
+				
+				// Atualiza Feita para Fazendo
+				public void updateTaskDoingToTodo(int id) {
+					String query = "UPDATE tasks SET status = ? WHERE id = ?";
+					try {
+						PreparedStatement stmt = con.prepareStatement(query);
+						stmt.setString(1, "TODO");
+						stmt.setInt(2, id);
+
+						stmt.executeUpdate();
+					} catch (SQLException e) {
+						System.err.println("Erro ao atualizar tarefa: " + e.getMessage());
+					}
+				}
 
 	// Deleta
 	public void deleteTask(int id) {
@@ -102,7 +159,7 @@ public class TaskDAO {
 	        String title = rs.getString("title");
 	        String status = rs.getString("status");
 	        String type = rs.getString("type");
-	        Timestamp createdAt = rs.getTimestamp("created_at");
+	        Date createdAt = rs.getDate("created_at");
 
 	        // checa o tipo
 	        if ("normal".equalsIgnoreCase(type)) {
