@@ -2,6 +2,7 @@ package br.com.projetofinal.DAO;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import br.com.projetofinal.DTO.ITaskDTO;
 import br.com.projetofinal.DTO.NormalTaskDTO;
@@ -49,6 +50,12 @@ public class TaskDAO {
             while (rs.next()) {
                 tasks.add(createTaskFromResultSet(rs));
             }
+            
+            System.out.println("LISTANADO");
+            for(var task : tasks){
+            	System.out.println(task.getTitle());
+            }
+            
         } catch (SQLException e) {
             System.err.println("Erro ao buscar todas as tarefas: " + e.getMessage());
         } finally {
@@ -81,18 +88,16 @@ public class TaskDAO {
     }
 
     // Atualização de tarefa
-    public boolean updateTask(int id, ITaskDTO task) {
-        String query = "UPDATE tasks SET title = ?, status = ?, type = ?, created_at = ? WHERE id = ?";
+    public boolean updateTask(int id, String title, String type) {
+        String query = "UPDATE tasks SET title = ?, type = ? WHERE id = ?";
         Connection con = null;
         PreparedStatement stmt = null;
         try {
             con = ConnectionDAO.ConnectDB();
             stmt = con.prepareStatement(query);
-            stmt.setString(1, task.getTitle());
-            stmt.setString(2, task.getStatus());
-            stmt.setString(3, task.getType());
-            stmt.setTimestamp(4, new Timestamp(task.getCreatedAt().getTime()));
-            stmt.setInt(5, id);
+            stmt.setString(1, title);
+            stmt.setString(2, type);
+            stmt.setInt(3, id);
 
             stmt.executeUpdate();
             con.commit();
@@ -147,22 +152,27 @@ public class TaskDAO {
         }
     }
 
-    // Criação de tarefa a partir do ResultSet (método auxiliar)
+ // Criação de tarefa a partir do ResultSet (método auxiliar)
     private ITaskDTO createTaskFromResultSet(ResultSet rs) {
         try {
+            int id = rs.getInt("id");
             String title = rs.getString("title");
             String status = rs.getString("status");
             String type = rs.getString("type");
             Date createdAt = rs.getDate("created_at");
 
-            if ("normal".equalsIgnoreCase(type)) {
-                return new NormalTaskDTO(title, status, createdAt);
-            } else if ("urgent".equalsIgnoreCase(type)) {
-                return new UrgentTaskDTO(title, status, createdAt);
+            // Comparando o tipo de tarefa com letras minúsculas, para garantir a correspondência correta
+            if (type.equalsIgnoreCase("normal")) {
+            	System.out.println(title + ' ' + type + " entrou no normal");
+                return new NormalTaskDTO(id, title, status, type, createdAt);
+            } else if (type.equalsIgnoreCase("urgent")) {
+            	System.out.println(title + ' ' + type + " entrou no urgent");
+                return new UrgentTaskDTO(id, title, status, type, createdAt);
             }
         } catch (SQLException e) {
             System.err.println("Erro ao criar tarefa a partir do ResultSet: " + e.getMessage());
         }
         return null;
     }
+
 }

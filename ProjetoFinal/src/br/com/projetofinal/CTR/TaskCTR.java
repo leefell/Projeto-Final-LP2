@@ -34,9 +34,9 @@ public class TaskCTR {
         return taskDAO.getTaskById(id);
     }
 
-    public String updateTask(int id, ITaskDTO updatedTask) {
+    public String updateTask(int id, String title, String type) {
         try {
-            taskDAO.updateTask(id, updatedTask);
+            taskDAO.updateTask(id, title, type);
             return "Task atualizada com sucesso!";
         } catch (Exception e) {
             return handleError("Erro ao atualizar tarefa", e);
