@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class NormalTaskDTO implements ITaskDTO {
 
+	private int id;
     private String title;
     private String status;
     private String type;
@@ -22,7 +23,15 @@ public class NormalTaskDTO implements ITaskDTO {
     	this.type = "normal";
     }
 
-    @Override
+    public NormalTaskDTO(int id, String title, String status, String type, Date created_At) {
+		this.id = id;
+		this.title = title;
+		this.status = status;
+		this.type = type;
+		this.created_At = created_At;
+	}
+
+	@Override
     public String getTitle() {
         return title;
     }
@@ -41,4 +50,9 @@ public class NormalTaskDTO implements ITaskDTO {
     public Date getCreatedAt() {
         return created_At;
     }
+
+	@Override
+	public int getId() {
+		return id;
+	}
 }
