@@ -15,7 +15,8 @@ public class ConnectionDAO {
             try {
                 String dsn = "projetoFinalLP2";
                 String user = "postgres";
-                String senha = "1508";
+                //String senha = "1508";
+                String senha = "Callegari@3145";
                 DriverManager.registerDriver(new org.postgresql.Driver());
                 String url = "jdbc:postgresql://localhost:5432/" + dsn;
 
