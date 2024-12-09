@@ -10,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.Date;
 import java.awt.event.ActionEvent;
@@ -19,8 +21,12 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.GroupLayout;
 import java.awt.Font;
+import java.awt.Point;
+import java.awt.Rectangle;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
@@ -39,7 +45,7 @@ public class TaskVIEW extends JFrame {
     private JTable tableA;
     private JTable tableB;
     private JTable tableC;
-
+   
     public TaskVIEW() {
         initComponents();
         setSize(1267, 788); 
@@ -68,7 +74,16 @@ public class TaskVIEW extends JFrame {
 
                 if (rowSelected != -1) {
                     // Obter a ID da tarefa selecionada (a ID pode ser obtida de qualquer tabela, dependendo da seleção)
-                    int id = (int) tableA.getValueAt(rowSelected, 0);
+                	
+                	// Alterado para pegar direito qual linha foi selecionada
+                    int id = -1;
+                    if(tableA.getSelectedRow() != -1) {
+                    	id = (int) tableA.getValueAt(tableA.getSelectedRow(), 0);
+                    }else if(tableB.getSelectedRow() != -1) {
+                    	id = (int) tableB.getValueAt(tableB.getSelectedRow(), 0);
+                    }else if (tableC.getSelectedRow() != -1) {
+                    	id = (int) tableC.getValueAt(tableC.getSelectedRow(), 0);
+                    }
 
                     // Exibir a caixa de diálogo de confirmação
                     int option = JOptionPane.showConfirmDialog(
@@ -109,9 +124,29 @@ public class TaskVIEW extends JFrame {
 
                 if (rowSelected != -1) {
                     // Pega a tarefa q esta selecionada
-                    int id = (int) tableA.getValueAt(rowSelected, 0);
-                    String title = (String) tableA.getValueAt(rowSelected, 1);
-                    String type = (String) tableA.getValueAt(rowSelected, 2);
+                	int id = -1;
+                	String title = null;
+                	String type = null;
+
+                	// Essa verificação atribui às variaveis row, id, title, type os valores corretos
+                	// conforme o clique
+                	if (tableA.getSelectedRow() != -1) {
+                	    int row = tableA.getSelectedRow();
+                	    id = (int) tableA.getValueAt(row, 0);
+                	    title = (String) tableA.getValueAt(row, 1);
+                	    type = (String) tableA.getValueAt(row, 2);
+                	} else if (tableB.getSelectedRow() != -1) {
+                	    int row = tableB.getSelectedRow();
+                	    id = (int) tableB.getValueAt(row, 0);
+                	    title = (String) tableB.getValueAt(row, 1);
+                	    type = (String) tableB.getValueAt(row, 2);
+                	} else if (tableC.getSelectedRow() != -1) {
+                	    int row = tableC.getSelectedRow();
+                	    id = (int) tableC.getValueAt(row, 0);
+                	    title = (String) tableC.getValueAt(row, 1);
+                	    type = (String) tableC.getValueAt(row, 2);
+                	}
+
 
                     // Cria os componentes que vao estar na janela
                     JTextField titleField = new JTextField(title);
@@ -152,7 +187,6 @@ public class TaskVIEW extends JFrame {
                 }
             }
         });
-
 
         JLabel lblAFazer = new JLabel("A Fazer");
         lblAFazer.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -268,47 +302,63 @@ public class TaskVIEW extends JFrame {
                 titleTask.setText("");
                 updateTables();
             }
+            
+        });
+        
+        // Limpa Seleção
+        JButton btnNewButton = new JButton("Limpar Seleção");
+        btnNewButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		tableA.clearSelection();
+        		tableB.clearSelection();
+        		tableC.clearSelection();
+        	}
         });
         
         GroupLayout layout = new GroupLayout(getContentPane());
         layout.setHorizontalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
-        			.addGap(10)
         			.addGroup(layout.createParallelGroup(Alignment.LEADING)
         				.addGroup(layout.createSequentialGroup()
-        					.addComponent(btnDeletar)
-        					.addPreferredGap(ComponentPlacement.RELATED)
-        					.addComponent(btnEditar)
-        					.addGap(30)
-        					.addComponent(titleTask, GroupLayout.PREFERRED_SIZE, 1041, GroupLayout.PREFERRED_SIZE)
-        					.addPreferredGap(ComponentPlacement.UNRELATED)
-        					.addComponent(typeTask, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        					.addPreferredGap(ComponentPlacement.UNRELATED)
-        					.addComponent(btnOk))
-        				.addGroup(layout.createSequentialGroup()
+        					.addGap(10)
         					.addGroup(layout.createParallelGroup(Alignment.LEADING)
         						.addGroup(layout.createSequentialGroup()
-        							.addComponent(lblAFazer)
+        							.addComponent(btnDeletar)
+        							.addPreferredGap(ComponentPlacement.RELATED)
+        							.addComponent(btnEditar)
+        							.addGap(30)
+        							.addComponent(titleTask, GroupLayout.PREFERRED_SIZE, 1041, GroupLayout.PREFERRED_SIZE)
         							.addPreferredGap(ComponentPlacement.UNRELATED)
-        							.addComponent(btnFazerParaFazendo, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
-        						.addComponent(scrollPaneA, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE))
-        					.addGap(10)
-        					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        							.addComponent(typeTask, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        							.addPreferredGap(ComponentPlacement.UNRELATED)
+        							.addComponent(btnOk))
         						.addGroup(layout.createSequentialGroup()
-        							.addComponent(btnFazendoParaFazer, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-        							.addPreferredGap(ComponentPlacement.RELATED)
-        							.addComponent(lblFazendo)
-        							.addPreferredGap(ComponentPlacement.RELATED)
-        							.addComponent(btnFazerParaFeita, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
-        						.addComponent(scrollPaneB, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE))
-        					.addGap(10)
-        					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-        						.addComponent(scrollPaneC, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE)
-        						.addGroup(layout.createSequentialGroup()
-        							.addComponent(btnFeitaParaFazendo, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-        							.addPreferredGap(ComponentPlacement.RELATED)
-        							.addComponent(lblFeito)))))
+        							.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        								.addGroup(layout.createSequentialGroup()
+        									.addComponent(lblAFazer)
+        									.addPreferredGap(ComponentPlacement.UNRELATED)
+        									.addComponent(btnFazerParaFazendo, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
+        								.addComponent(scrollPaneA, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE))
+        							.addGap(10)
+        							.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        								.addGroup(layout.createSequentialGroup()
+        									.addComponent(btnFazendoParaFazer, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+        									.addPreferredGap(ComponentPlacement.RELATED)
+        									.addComponent(lblFazendo)
+        									.addPreferredGap(ComponentPlacement.RELATED)
+        									.addComponent(btnFazerParaFeita, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
+        								.addComponent(scrollPaneB, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE))
+        							.addGap(10)
+        							.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        								.addComponent(scrollPaneC, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE)
+        								.addGroup(layout.createSequentialGroup()
+        									.addComponent(btnFeitaParaFazendo, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+        									.addPreferredGap(ComponentPlacement.RELATED)
+        									.addComponent(lblFeito))))))
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(607)
+        					.addComponent(btnNewButton)))
         			.addContainerGap(166, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -345,7 +395,9 @@ public class TaskVIEW extends JFrame {
         				.addComponent(scrollPaneA, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
         				.addComponent(scrollPaneB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
         				.addComponent(scrollPaneC, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        			.addGap(10))
+        			.addGap(39)
+        			.addComponent(btnNewButton)
+        			.addGap(179))
         );
         getContentPane().setLayout(layout);
     }
@@ -383,6 +435,7 @@ public class TaskVIEW extends JFrame {
         }
     }
 
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             TaskVIEW view = new TaskVIEW();
