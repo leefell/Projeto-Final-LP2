@@ -35,7 +35,9 @@ public class TaskVIEW extends JFrame {
 
 	public TaskVIEW() {
 		initComponents();
-		setSize(1267, 788);
+		//Alteração no tamanho da tela
+		// default setSize(1267, 788);
+		setSize(1450, 620);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		updateTables();
